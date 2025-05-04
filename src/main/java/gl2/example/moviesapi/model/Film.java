@@ -10,13 +10,12 @@ public class Film {
     private Long id;
 
     private String nom;
-    @ManyToOne
-    @JoinTable(
 
-            joinColumns = @JoinColumn(name = "realisateur_id")
-    )
-    private Realisateur realisateur;
     private String genre;
+
+    @ManyToOne
+    @JoinColumn(name = "realisateur_id") // Clé étrangère dans la table "film"
+    private Realisateur realisateur;
 
     public Film() {}
 
