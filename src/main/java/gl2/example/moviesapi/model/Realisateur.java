@@ -2,6 +2,8 @@ package gl2.example.moviesapi.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Realisateur {
@@ -15,6 +17,7 @@ public class Realisateur {
     private String nationalite;
 
     @OneToMany(mappedBy = "realisateur", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Film> films;
 
     public Realisateur() {}

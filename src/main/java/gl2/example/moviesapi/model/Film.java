@@ -1,5 +1,7 @@
 package gl2.example.moviesapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,7 +16,8 @@ public class Film {
     private String genre;
 
     @ManyToOne
-    @JoinColumn(name = "realisateur_id") // Clé étrangère dans la table "film"
+    @JoinColumn(name = "realisateur_id")
+    @JsonIgnore // Prevent full Realisateur object from being serialized
     private Realisateur realisateur;
 
     public Film() {}
@@ -25,7 +28,6 @@ public class Film {
         this.genre = genre;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -42,6 +44,14 @@ public class Film {
         this.nom = nom;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
     public Realisateur getRealisateur() {
         return realisateur;
     }
@@ -50,11 +60,9 @@ public class Film {
         this.realisateur = realisateur;
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
+    // 👇 Expose only the realisateur's id in JSON
+    @JsonProperty("realisateurId")
+    public Long getRealisateurId() {
+        return realisateur != null ? realisateur.getId() : null;
     }
 }
